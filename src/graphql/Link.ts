@@ -1,5 +1,4 @@
 import { objectType, extendType, nonNull, stringArg, intArg } from 'nexus';
-import { NexusGenObjects } from "../../nexus-typegen";
 
 export const Link = objectType({
   name: 'Link',
@@ -7,21 +6,16 @@ export const Link = objectType({
     t.nonNull.int('id');
     t.nonNull.string("description");
     t.nonNull.string("url");
-  }
-})
-
-let links: NexusGenObjects["Link"][] = [
-  {
-    id: 1,
-    url: "www.howtogrophql.com",
-    description: "Fullstack tutorail for GraphQL",
+    t.field('postedBy', {
+      type: 'User',
+      resolve(parent, args, context) {
+        return context.prisma.link
+            .findUnique({ where: { id: parent.id } })
+            .postedBy();
+      },
+    });
   },
-  {
-    id: 2,
-    url: "graphiql.org",
-    description: "GraphQL official website."
-  },
-];
+});
 
 export const LinkQuery = extendType({
   type: "Query",
@@ -47,10 +41,18 @@ export const LinkMutation = extendType({
       },
 
       resolve(parent, args, context) {
+        const { description, url } = args;
+        const { userId } = context;
+
+        if (!userId) {
+          throw new Error("Cannot post without logging in.");
+        }
+
         const link = context.prisma.link.create({
           data: {
-            description: args.description,
-            url: args.url,
+            description: description,
+            url: url,
+            postedBy: { connect: { id: userId } }
           },
         });
         return link;
