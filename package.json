@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "ts-node-dev --transpile-only --no-notify --exit-child src/index.ts",
     "generate": "ts-node --transpile-only src/schema.ts",
+    "prettier-format": "prettier 'src/**/*.ts' --write",
     "migrate:deploy": "prisma migrate deploy",
-    "build": "prisma generate && npm run generate ** tsc",
+    "build": "prisma generate && npm run generate && tsc",
     "start": "node dist/src/index.js"
   },
   "keywords": [],
