@@ -31,7 +31,7 @@ export const Link = objectType({
 export const LinkQuery = extendType({
   type: "Query",
   definition(t) {
-    t.nonNull.nonNull.field("feed", {
+    t.nonNull.field("feed", {
       type: "Feed",
       args: {
         filter: stringArg(),
