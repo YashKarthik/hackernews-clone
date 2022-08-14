@@ -76,6 +76,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     feed: NexusGenRootTypes['Link'][]; // [Link!]!
+    users: NexusGenRootTypes['User'][]; // [User!]!
   }
   User: { // field return type
     email: string; // String!
@@ -105,6 +106,7 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     feed: 'Link'
+    users: 'User'
   }
   User: { // field return type name
     email: 'String'

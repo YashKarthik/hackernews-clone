@@ -26,6 +26,13 @@ export const LinkQuery = extendType({
         return context.prisma.link.findMany();
       }
     });
+
+    t.nonNull.list.nonNull.field("users", {
+      type: "User",
+      resolve(parent, args, context, info) {
+        return context.prisma.user.findMany();
+      }
+    })
   },
 });
 
@@ -43,6 +50,7 @@ export const LinkMutation = extendType({
       resolve(parent, args, context) {
         const { description, url } = args;
         const { userId } = context;
+        console.log('From Link.ts', context.userId, userId)
 
         if (!userId) {
           throw new Error("Cannot post without logging in.");

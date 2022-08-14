@@ -16,6 +16,6 @@ export const context = ({ req }: { req: Request }): Context => {
 
   return {
     prisma,
-    userId: token?.userdId,
+    userId: token?.userId,
   }
 }
